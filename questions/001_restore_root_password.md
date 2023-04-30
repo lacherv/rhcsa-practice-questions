@@ -15,7 +15,7 @@ and log into the system.
 ### Answer:
 
 * During boot time when GRUB loader screen is presented press *e* key. That will open an editor with current kernel boot options.
-* Find the line starting with ***linux16***. At the end of that line add **rd.break** and press ***Ctrl-x*** to restart the 
+* Find the line starting with ***linux***. At the end of that line add **rd.break** and press ***Ctrl-x*** to restart the 
 system with new option.
 * ***For RHCSA8 only*** - You should also remove existing parameters **ro** and **crashkernel=...**.
 * What this actually does is taking You to the target right at the end of the boot stage - before root filesystem is mounted (on /).
@@ -38,6 +38,15 @@ touch /.autorelabel
 
 * Type ***exit*** twice (with pressing ENTER after each one)
 * Now You can log into the system using new password
+
+### Alternative Answer (based on RHEL 9)
+* On system boot, press *e* when the GRUB 2 boot menu is shown.
+* Go to the end of the line starting with **linux**, add **init=/bin/bash** and press **ctrl+x** to boot with this option.
+* Once a root shell is opened, type **mount -o remount,rw /** to get read/write access to the root filesystem.
+* Now you enter **passwd** command to set the new password for the user root
+* Enable the SELinux relaballing process, type **touch /.autorelabel**
+* Type **exec /usr/lib/systemd/systemd**, not **reboot** or **exit**
+* Verify that you can log in as the root user after rebooting
 
 
 ### Additional comment:
